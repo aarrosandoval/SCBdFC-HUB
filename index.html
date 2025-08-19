@@ -6,31 +6,24 @@
   <title>Southern California Bouvier des Flandres Club Member Hub</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-  <script>
-document.querySelector('.menu-toggle').addEventListener('click', () => {
-  document.querySelector('.dropdown').classList.toggle('active');
-});
-</script>
-<body>
+<body class="index-page">
   <header class="club-header">
-  <div class="header-container">
-    <img src="club-logo.jpg" alt="Club Logo" class="club-logo">
-    <h1>Southern California Bouvier des Flandres Club Member Hub</h1>
-    <button class="menu-toggle">☰</button>
-  </div>
-  <nav class="club-nav dropdown">
-    <a href="index.html">Home</a>
-    <a href="events.html">Events</a>
-    <a href="newsletter.html">Newsletter</a>
-    <a href="bragboard.html">Brag Board</a>
-    <a href="volunteer.html">Volunteer</a>
-    <a href="gallery.html">Gallery</a>
-    <a href="resources.html">Resources</a>
-    <a href="about.html">About</a>
-  </nav>
-</header>
-
-
+    <div class="header-container">
+      <img src="club-logo.jpg" alt="Club Logo" class="club-logo">
+      <h1>Southern California Bouvier des Flandres Club Member Hub</h1>
+      <button class="menu-toggle">☰</button>
+    </div>
+    <nav class="club-nav dropdown">
+      <a href="index.html">Home</a>
+      <a href="events.html">Events</a>
+      <a href="newsletter.html">Newsletter</a>
+      <a href="bragboard.html">Brag Board</a>
+      <a href="volunteer.html">Volunteer</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="resources.html">Resources</a>
+      <a href="about.html">About</a>
+    </nav>
+  </header>
 
   <main>
     <section class="welcome">
@@ -83,5 +76,13 @@ document.querySelector('.menu-toggle').addEventListener('click', () => {
   <footer class="club-footer">
     <p>&copy; 2025 Southern California Bouvier des Flandres Club | <a href="https://bouvier.org" target="_blank">National Club</a></p>
   </footer>
+
+  <!-- ✅ FIXED: Move script to bottom -->
+  <script>
+    document.querySelector('.menu-toggle').addEventListener('click', () => {
+      document.querySelector('.dropdown').classList.toggle('active');
+    });
+  </script>
 </body>
 </html>
+
