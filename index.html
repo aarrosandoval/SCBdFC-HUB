@@ -11,7 +11,7 @@
     <div class="header-container">
       <img src="club-logo.jpg" alt="Club Logo" class="club-logo">
       <h1>Southern California Bouvier des Flandres Club Member Hub</h1>
-      <button class="menu-toggle">☰</button>
+      <button class="menu-toggle" aria-label="Toggle Menu">☰</button>
     </div>
     <nav class="club-nav dropdown">
       <a href="index.html">Home</a>
@@ -31,4 +31,51 @@
     </section>
 
     <section class="dashboard">
-      <h2>Quick Acc
+      <h2>Quick Access</h2>
+      <div class="dashboard-grid">
+        <a href="events.html" class="dashboard-card">
+          <span class="icon">📅</span>
+          <h3>Upcoming Events</h3>
+          <p>Show dates, specialty events, and deadlines.</p>
+        </a>
+        <a href="newsletter.html" class="dashboard-card">
+          <span class="icon">📰</span>
+          <h3>Club Newsletter</h3>
+          <p>Stay updated with the latest club news.</p>
+        </a>
+        <a href="bragboard.html" class="dashboard-card">
+          <span class="icon">🐾</span>
+          <h3>Brag Board</h3>
+          <p>Celebrate the wins of our members & Bouviers.</p>
+        </a>
+        <a href="volunteer.html" class="dashboard-card">
+          <span class="icon">🙌</span>
+          <h3>Volunteer</h3>
+          <p>Find ways to get involved in upcoming events.</p>
+        </a>
+        <a href="gallery.html" class="dashboard-card">
+          <span class="icon">📸</span>
+          <h3>Gallery</h3>
+          <p>Photos from shows, events, and members.</p>
+        </a>
+        <a href="resources.html" class="dashboard-card">
+          <span class="icon">📚</span>
+          <h3>Resources</h3>
+          <p>Helpful guides, forms, and links for members.</p>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="club-footer">
+    <p>&copy; 2025 Southern California Bouvier des Flandres Club | <a href="https://bouvier.org" target="_blank">National Club</a></p>
+  </footer>
+
+  <!-- JavaScript for dropdown -->
+  <script>
+    document.querySelector('.menu-toggle').addEventListener('click', () => {
+      document.querySelector('.dropdown').classList.toggle('active');
+    });
+  </script>
+</body>
+</html>
