@@ -6,18 +6,14 @@ body {
   margin: 0;
   padding: 0;
   line-height: 1.6;
-  overflow-x: hidden;
 }
 
 /* Header */
 .club-header {
   background: rgba(13, 27, 42, 0.95);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(6px);
   border-bottom: 2px solid #00b4d8;
   padding: 15px 20px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
 }
 
 .header-container {
@@ -35,7 +31,6 @@ body {
   font-weight: 700;
   color: #f5f5f5;
   margin: 0 20px;
-  letter-spacing: 0.5px;
 }
 
 .menu-toggle {
@@ -51,7 +46,6 @@ body {
   display: none;
   flex-direction: column;
   text-align: center;
-  transition: all 0.4s ease;
 }
 
 .club-nav.active {
@@ -62,48 +56,19 @@ body {
   color: #f5f5f5;
   padding: 10px;
   text-decoration: none;
-  position: relative;
-  transition: color 0.3s ease;
-}
-
-.club-nav a::after {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: 0;
-  left: 50%;
-  background: #00b4d8;
-  transition: all 0.3s ease;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
 }
 
 .club-nav a:hover {
   color: #00b4d8;
-}
-
-.club-nav a:hover::after {
-  width: 100%;
-  left: 0;
-}
-
-/* Desktop nav */
-@media (min-width: 768px) {
-  .club-nav {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin-top: 10px;
-  }
-  .menu-toggle {
-    display: none;
-  }
+  border-bottom: 2px solid #00b4d8;
+  animation: glowPulse 3s ease-in-out infinite;
 }
 
 /* Welcome */
 .welcome {
   text-align: center;
-  padding: 80px 20px 60px;
-  animation: fadeIn 1s ease-out;
+  padding: 60px 20px;
 }
 
 .welcome h2 {
@@ -111,14 +76,22 @@ body {
   color: #00b4d8;
   font-weight: 700;
   margin-bottom: 15px;
-  letter-spacing: 1px;
 }
 
 .welcome p {
   font-size: 1.2rem;
   max-width: 650px;
-  margin: 0 auto;
+  margin: 0 auto 20px;
   color: #dcdcdc;
+}
+
+.welcome-divider {
+  width: 80px;
+  height: 4px;
+  margin: 20px auto;
+  background: #00b4d8;
+  border-radius: 4px;
+  animation: glowPulse 3s ease-in-out infinite;
 }
 
 /* Dashboard */
@@ -137,15 +110,14 @@ body {
 }
 
 .dashboard-card {
-  background: linear-gradient(145deg, rgba(65, 90, 119, 0.4), rgba(65, 90, 119, 0.2));
-  border-radius: 20px;
-  padding: 30px;
+  background: rgba(65, 90, 119, 0.3);
+  border-radius: 15px;
+  padding: 25px;
   text-align: center;
   color: #eaeaea;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: inset 0 1px 4px rgba(0,0,0,0.4);
 }
 
 .dashboard-card h3 {
@@ -155,15 +127,15 @@ body {
 }
 
 .dashboard-card .icon {
-  font-size: 2.6rem;
-  margin-bottom: 12px;
-  display: block;
+  font-size: 2.4rem;
+  margin-bottom: 10px;
 }
 
 .dashboard-card:hover {
-  transform: translateY(-10px) scale(1.04);
-  box-shadow: 0 12px 28px rgba(0, 180, 216, 0.4);
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(0, 180, 216, 0.4);
   border: 1px solid #00b4d8;
+  animation: glowPulse 3s ease-in-out infinite;
 }
 
 /* Footer */
@@ -171,9 +143,8 @@ body {
   background: #1b263b;
   color: #bbb;
   text-align: center;
-  padding: 25px;
+  padding: 20px;
   border-top: 1px solid #2d3f56;
-  font-size: 0.9rem;
 }
 
 .club-footer a {
@@ -185,8 +156,14 @@ body {
   text-decoration: underline;
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+/* Glow Animation */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(0, 180, 216, 0.5);
+    opacity: 0.95;
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(0, 180, 216, 0.9);
+    opacity: 1;
+  }
 }
