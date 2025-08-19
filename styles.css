@@ -23,7 +23,13 @@ body {
 }
 
 .club-logo {
-  max-height: 60px;
+  max-height: 80px; /* bigger logo */
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.club-logo:hover {
+  transform: scale(1.05);
 }
 
 .club-header h1 {
