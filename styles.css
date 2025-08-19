@@ -18,25 +18,29 @@ body {
 .club-header {
   padding: 20px 10px;
   border-bottom: 3px solid #0056b3; /* blue accent */
+  background: #000; /* match site background */
 }
 
-.header-content {
+.header-container {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
+  align-items: center;          /* vertically centers logo + text */
+  justify-content: flex-start;  /* keeps both anchored left */
+  gap: 20px;                    /* spacing between logo and text */
+}
+
+.club-logo {
+  max-height: 80px;
+  flex-shrink: 0;               /* keeps logo from shrinking */
 }
 
 .club-header h1 {
   font-size: 1.8rem;
   text-align: left;
+  margin: 0;
+  flex-grow: 1;
 }
 
-.club-logo {
-  max-height: 80px;
-}
-
-/* Navigation - default (non-home pages) */
+/* Navigation */
 .club-nav {
   display: flex;
   justify-content: center;
@@ -141,22 +145,14 @@ main {
   color: #cce6ff;
 }
 
-/* Dropdown menu styling (Home only) */
+/* Dropdown menu styling */
 .menu-toggle {
   font-size: 1.5rem;
   background: none;
   border: none;
   color: white;
   cursor: pointer;
-  display: none; /* hidden everywhere by default */
-}
-
-.index-page .club-nav {
-  display: none; /* hide full nav on home page */
-}
-
-.index-page .menu-toggle {
-  display: block; /* show ☰ button only on home page */
+  display: none;
 }
 
 .dropdown {
@@ -179,4 +175,9 @@ main {
 /* Show dropdown when active */
 .dropdown.active {
   display: flex;
+}
+
+/* Only show toggle button on Home page */
+.index-page .menu-toggle {
+  display: block;
 }
