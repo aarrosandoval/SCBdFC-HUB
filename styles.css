@@ -140,3 +140,39 @@ main {
 .club-footer a:hover {
   color: #cce6ff;
 }
+/* Dropdown menu styling */
+.menu-toggle {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: none;
+}
+
+.dropdown {
+  display: none;
+  flex-direction: column;
+  background: #0056b3;
+  padding: 10px;
+}
+
+.dropdown a {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #003d80;
+}
+
+.dropdown a:last-child {
+  border-bottom: none;
+}
+
+/* Show dropdown when active */
+.dropdown.active {
+  display: flex;
+}
+
+/* Only show toggle button on Home page */
+.index-page .menu-toggle {
+  display: block;
+}
