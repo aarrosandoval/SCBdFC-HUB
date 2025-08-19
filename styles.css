@@ -36,7 +36,7 @@ body {
   max-height: 80px;
 }
 
-/* Navigation */
+/* Navigation - default (non-home pages) */
 .club-nav {
   display: flex;
   justify-content: center;
@@ -140,14 +140,23 @@ main {
 .club-footer a:hover {
   color: #cce6ff;
 }
-/* Dropdown menu styling */
+
+/* Dropdown menu styling (Home only) */
 .menu-toggle {
   font-size: 1.5rem;
   background: none;
   border: none;
   color: white;
   cursor: pointer;
-  display: none;
+  display: none; /* hidden everywhere by default */
+}
+
+.index-page .club-nav {
+  display: none; /* hide full nav on home page */
+}
+
+.index-page .menu-toggle {
+  display: block; /* show ☰ button only on home page */
 }
 
 .dropdown {
@@ -170,9 +179,4 @@ main {
 /* Show dropdown when active */
 .dropdown.active {
   display: flex;
-}
-
-/* Only show toggle button on Home page */
-.index-page .menu-toggle {
-  display: block;
 }
