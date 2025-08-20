@@ -1,41 +1,52 @@
-[
-  {
-    "title": "Supported Entry – Del Mar",
-    "type": "show",
-    "date": "2025-09-14",
-    "city": "Del Mar, CA",
-    "detailsUrl": "#",
-    "mapUrl": "https://maps.google.com/?q=Del+Mar+Fairgrounds",
-    "volunteerUrl": "volunteer.html"
-  },
-  {
-    "title": "Ring Handling Practice – Orange County",
-    "type": "meetup",
-    "date": "2025-10-05",
-    "city": "Orange, CA",
-    "detailsUrl": "#",
-    "mapUrl": "https://maps.google.com/?q=Irvine+Regional+Park",
-    "volunteerUrl": "volunteer.html"
-  },
-  {
-    "title": "Grooming Clinic – San Diego",
-    "type": "seminar",
-    "date": "2025-11-02",
-    "city": "San Diego, CA",
-    "detailsUrl": "#",
-    "mapUrl": "https://maps.google.com/?q=San+Diego",
-    "volunteerUrl": "volunteer.html"
-  },
+<script>
+const API_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL"; // <-- your deployed link
 
-  /* ---- Past highlights (optional) ---- */
-  {
-    "title": "Summer Specialty – Long Beach",
-    "type": "show",
-    "date": "2025-06-08",
-    "city": "Long Beach, CA",
-    "detailsUrl": "#",
-    "mapUrl": "https://maps.google.com/?q=Long+Beach",
-    "volunteerUrl": "volunteer.html",
-    "past": true
-  }
-]
+async function loadEvents() {
+  const res = await fetch(API_URL);
+  const events = await res.json();
+  render(events);
+}
+
+async function addEvent(event) {
+  await fetch(API_URL, {
+    method: "POST",
+    contentType: "application/json",
+    body: JSON.stringify(event)
+  });
+  loadEvents();
+}
+
+async function deleteEvent(title) {
+  await fetch(`${API_URL}?title=${encodeURIComponent(title)}`, { method: "DELETE" });
+  loadEvents();
+}
+
+function render(events) {
+  const upcomingEl = document.getElementById("upcoming");
+  const pastEl = document.getElementById("past");
+  upcomingEl.innerHTML = "";
+  pastEl.innerHTML = "";
+  
+  const today = new Date();
+  events.forEach(e => {
+    const d = new Date(e.Date);
+    const html = `
+      <article class="card">
+        <h4>${e.Title}</h4>
+        <div class="when">${e.Date}</div>
+        <div class="where">${e.City}</div>
+        <div class="actions">
+          <button onclick="deleteEvent('${e.Title}')">Delete</button>
+        </div>
+      </article>
+    `;
+    if (d >= today) {
+      upcomingEl.innerHTML += html;
+    } else {
+      pastEl.innerHTML += html;
+    }
+  });
+}
+
+loadEvents();
+</script>
