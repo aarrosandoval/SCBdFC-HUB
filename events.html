@@ -1,73 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SCBdFC Member Hub - Events</title>
-  <link rel="stylesheet" href="styles.css"/>
-  <style>
-    /* Page-specific light styling (reuses your palette) */
-    .events-wrap { max-width: 1100px; margin: 0 auto; padding: 30px 20px 60px; }
-    .featured { background: rgba(65,90,119,0.35); border: 1px solid rgba(255,255,255,0.12);
-      border-left: 4px solid #00b4d8; border-radius: 14px; padding: 24px; margin-bottom: 28px;
-      backdrop-filter: blur(10px); box-shadow: 0 10px 25px rgba(0,180,216,0.18); }
-    .featured h3 { margin: 0 0 10px; color:#00b4d8; font-size: 1.4rem; }
-    .meta { display:flex; flex-wrap:wrap; gap:14px; margin: 10px 0 14px; color:#cfd8e3; }
-    .meta span { background: rgba(255,255,255,0.06); padding:6px 10px; border-radius: 999px; border:1px solid rgba(255,255,255,0.08); }
-    .actions { display:flex; flex-wrap:wrap; gap:10px; margin-top: 10px; }
-    .btn { display:inline-block; padding:10px 14px; border-radius:10px; text-decoration:none; color:#eaeaea;
-      border:1px solid rgba(255,255,255,0.12); background: rgba(13,27,42,0.6);
-      transition: transform .2s ease, box-shadow .3s ease, border .3s ease; }
-    .btn:hover { transform: translateY(-2px); border-color:#00b4d8; box-shadow: 0 8px 18px rgba(0,180,216,.28); }
-    .filters { display:flex; flex-wrap:wrap; gap:10px; margin: 8px 0 22px; }
-    .chip { cursor:pointer; padding:8px 12px; border-radius:999px; border:1px solid rgba(255,255,255,0.12); background: rgba(65,90,119,0.25); }
-    .chip.active { border-color:#00b4d8; box-shadow: inset 0 0 0 1px #00b4d8; }
-    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:18px; }
-    .card { background: rgba(65,90,119,0.28); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:18px; backdrop-filter: blur(10px);
-      transition: transform .2s ease, box-shadow .3s ease, border .3s ease; min-height: 180px; }
-    .card:hover { transform: translateY(-6px); border-color:#00b4d8; box-shadow: 0 12px 24px rgba(0,180,216,.22); }
-    .card h4 { margin:0 0 6px; color:#00b4d8; }
-    .card .when { color:#eaeaea; font-weight:600; }
-    .card .where { color:#cbd5e1; }
-    .subtle { color:#9fb3c8; font-size: .95rem; }
-    .section-title { text-align:center; font-size:1.9rem; margin:32px 0 18px; color:#eaeaea; text-shadow: 0 0 6px rgba(0,180,216,.25); }
-    .note { text-align:center; margin-top: 26px; color:#a8c0d6; font-size:.95rem; }
-    .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center; }
-    .past { opacity:.92; }
-
-    /* === Modal (added) === */
-    .modal-backdrop {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.55);
-      display: none; align-items: center; justify-content: center;
-      z-index: 2000; backdrop-filter: blur(2px);
-    }
-    .modal-backdrop.active { display: flex; }
-    .modal {
-      width: min(560px, 92vw);
-      background: rgba(27,38,59,0.98);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 14px;
-      box-shadow: 0 18px 46px rgba(0,0,0,0.6);
-    }
-    .modal-header {
-      display:flex; align-items:center; justify-content:space-between;
-      padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    .modal-header h3 { margin:0; color:#00b4d8; }
-    .modal-close {
-      background:none; border:none; color:#eaeaea; font-size:1.2rem; cursor:pointer;
-    }
-    .modal-body { padding: 16px 18px 20px; }
-    .field { display:flex; flex-direction:column; gap:6px; margin-bottom:12px; }
-    .field label { color:#cfd8e3; font-size:.95rem; }
-    .field input, .field select {
-      background: rgba(65,90,119,0.25);
-      border:1px solid rgba(255,255,255,0.12);
-      color:#eaeaea; border-radius:10px; padding:10px 12px; outline:none;
-    }
-    .field input:focus, .field select:focus { border-color:#00b4d8; box-shadow: 0 0 0 2px rgba(0,180,216,.2); }
-    .btn[disabled] { opacity:.6; cursor: not-allowed; }
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="club-header">
@@ -75,9 +12,10 @@
       <a href="index.html">
         <img src="club-logo.jpg" alt="Club Logo" class="club-logo" />
       </a>
-      <h1>Southern California Bouvier des Flandres Club Member Hub</h1>
+      <h1>SCBdFC MEMBER HUB</h1>
+      <button class="menu-toggle" aria-label="Toggle Menu">☰</button>
     </div>
-    <nav class="club-nav">
+    <nav class="club-nav dropdown">
       <a href="index.html">Home</a>
       <a href="events.html">Events</a>
       <a href="newsletter.html">Newsletter</a>
@@ -88,377 +26,139 @@
     </nav>
   </header>
 
-  <main class="events-wrap">
-    <h2 class="section-title">Featured Next Event</h2>
-    <section id="featured" class="featured" aria-live="polite"></section>
+  <main>
+    <h2>Upcoming Events</h2>
+    <div id="upcoming"></div>
 
-    <h2 class="section-title">Upcoming Southern California Events</h2>
+    <h2>Past Events</h2>
+    <div id="past"></div>
 
-    <!-- Add Event button (added) -->
-    <div class="row" style="justify-content:flex-end; margin: 8px 0 16px;">
-      <button class="btn" id="openAddEvent">+ Add Event</button>
-    </div>
-
-    <div class="filters" id="filters">
-      <button class="chip active" data-type="all">All</button>
-      <button class="chip" data-type="show">Show</button>
-      <button class="chip" data-type="meetup">Meetup/Practice</button>
-      <button class="chip" data-type="seminar">Seminar/Clinic</button>
-      <button class="chip" data-type="volunteer">Volunteer</button>
-    </div>
-
-    <section id="upcoming" class="grid" aria-live="polite"></section>
-
-    <h2 class="section-title">National Specialty</h2>
-    <section class="card" style="border-left:4px solid #00b4d8;">
-      <h4>National Specialty – Bouvier des Flandres</h4>
-      <div class="subtle">Dates TBA · Location varies</div>
-      <p class="subtle">We support and promote attendance at the National. Travel notes, entry links, and meetup plans will be posted here when available.</p>
-      <div class="actions">
-        <a class="btn" href="newsletter.html">Watch Newsletter</a>
-        <a class="btn" href="bragboard.html">Post Wins after the Show</a>
-      </div>
-    </section>
-
-        <h2 class="section-title">Past Highlights</h2>
-    <section id="past" class="grid past"></section>
-
-    <div class="row" style="margin-top:26px;">
-      <a class="btn" href="volunteer.html">Volunteer for Events</a>
-    </div>
-
-    <p class="note">Last updated: <span id="updated">—</span></p>
-
-
-    <!-- Add Event Modal (added) -->
-    <div class="modal-backdrop" id="addEventModal" aria-hidden="true">
-      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addEventTitle">
-        <div class="modal-header">
-          <h3 id="addEventTitle">Add Event</h3>
-          <button class="modal-close" id="closeAddEvent" aria-label="Close">✕</button>
-        </div>
-        <form id="addEventForm" class="modal-body">
-          <div class="field">
-            <label>Title*</label>
-            <input type="text" name="title" required placeholder="Supported Entry – Del Mar" />
-          </div>
-          <div class="field">
-            <label>Type*</label>
-            <select name="type" required>
-              <option value="show">Show</option>
-              <option value="meetup">Meetup/Practice</option>
-              <option value="seminar">Seminar/Clinic</option>
-              <option value="volunteer">Volunteer</option>
-            </select>
-          </div>
-          <div class="field">
-            <label>Date* (YYYY-MM-DD)</label>
-            <input type="date" name="date" required />
-          </div>
-          <div class="field">
-            <label>City*</label>
-            <input type="text" name="city" required placeholder="Del Mar, CA" />
-          </div>
-          <div class="field">
-            <label>Details URL</label>
-            <input type="url" name="detailsUrl" placeholder="https://…" />
-          </div>
-          <div class="field">
-            <label>Map URL</label>
-            <input type="url" name="mapUrl" placeholder="https://maps.google.com/…" />
-          </div>
-          <div class="field">
-            <label>Volunteer URL</label>
-            <input type="url" name="volunteerUrl" placeholder="volunteer.html" />
-          </div>
-
-          <div class="row" style="justify-content:flex-end; gap:10px;">
-            <button type="button" class="btn" id="cancelAddEvent">Cancel</button>
-            <button type="submit" class="btn" id="submitAddEvent">Save Event</button>
-          </div>
-          <p class="subtle" id="addEventStatus" style="margin-top:10px;"></p>
-        </form>
-      </div>
-    </div>
+    <button id="openModalBtn">➕ Add Event</button>
   </main>
 
   <footer class="club-footer">
-    <p>&copy; 2025 Southern California Bouvier des Flandres Club</p>
+    <p>&copy; 2025 Southern California Bouvier des Flandres Club | 
+      <a href="https://bouvier.org" target="_blank">National Club</a>
+    </p>
   </footer>
 
+  <!-- Modal -->
+  <div id="eventModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3>Add Event</h3>
+      <form id="addEventForm">
+        <label>Title</label>
+        <input type="text" id="eventTitle" required>
+
+        <label>Date</label>
+        <input type="date" id="eventDate" required>
+
+        <label>City</label>
+        <input type="text" id="eventCity">
+
+        <label>Type</label>
+        <input type="text" id="eventType">
+
+        <label>Details URL</label>
+        <input type="url" id="eventDetails">
+
+        <label>Map URL</label>
+        <input type="url" id="eventMap">
+
+        <label>Volunteer URL</label>
+        <input type="url" id="eventVolunteer">
+
+        <button type="submit">Save Event</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
   <script>
-    // ---- CONFIG ----
-    const GOOGLE_SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQXrEd2X8iCDgAJ1uHKcXdYN50cIcSSQI13rPSy4IDTeBO8NRIK8dIf4OpOI8nWfkg54tZejBO0HxkD/pub?output=csv"; // <-- paste your published CSV URL here (leave "" to skip)
-    const LOCAL_JSON_URL = "events.json";
+  const API_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL"; // replace with your deployed script URL
 
-    // ---- CSV parsing (very basic) ----
-    function parseCSV(csv) {
-      const lines = csv.trim().split(/\r?\n/);
-      const headers = lines.shift().split(",").map(h => h.trim().replace(/^"|"$/g, ""));
-      return lines.map(line => {
-        // naive split that handles simple quoted values; for complex sheets consider PapaParse
-        const cols = [];
-        let cur = "", inQuotes = false;
-        for (let i = 0; i < line.length; i++) {
-          const ch = line[i];
-          if (ch === '"' && line[i+1] === '"') { cur += '"'; i++; continue; }
-          if (ch === '"') { inQuotes = !inQuotes; continue; }
-          if (ch === ',' && !inQuotes) { cols.push(cur); cur = ""; continue; }
-          cur += ch;
-        }
-        cols.push(cur);
-        const obj = {};
-        headers.forEach((h, idx) => obj[h] = (cols[idx] || "").trim());
-        return obj;
-      });
-    }
+  // 🔹 Modal handling
+  const modal = document.getElementById("eventModal");
+  const openBtn = document.getElementById("openModalBtn");
+  const closeBtn = document.querySelector(".close");
 
-    // ---- Normalize a row (from CSV or JSON) into our event shape ----
-    function normalize(e) {
-      // Accept both sheet-style and json-style keys
-      return {
-        title: e.title || e.Title || "",
-        type: (e.type || e.Type || "show").toLowerCase(),
-        date: (e.date || e.Date || "").slice(0,10), // ensure YYYY-MM-DD
-        city: e.city || e.City || "",
-        detailsUrl: e.detailsUrl || e["Details URL"] || "",
-        mapUrl: e.mapUrl || e["Map URL"] || "",
-        volunteerUrl: e.volunteerUrl || e["Volunteer URL"] || "volunteer.html",
-        past: e.past === true || String(e.past).toLowerCase() === "true" || false
-      };
-    }
+  openBtn.onclick = () => modal.style.display = "block";
+  closeBtn.onclick = () => modal.style.display = "none";
+  window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
 
-    // ---- ICS generation ----
-    function makeICS(event) {
-      const pad = n => String(n).padStart(2, "0");
-      const d = new Date(event.date + "T09:00:00"); // default 9am local
-      const dt = d.getFullYear()
-        + pad(d.getMonth()+1)
-        + pad(d.getDate())
-        + "T"
-        + pad(d.getHours())
-        + pad(d.getMinutes())
-        + "00";
-      const dtEnd = dt; // single-day, no duration; customize if needed
+  // 🔹 Load events from Google Sheet
+  async function loadEvents() {
+    const res = await fetch(API_URL);
+    const events = await res.json();
+    render(events);
+  }
 
-      const ics = [
-        "BEGIN:VCALENDAR",
-        "VERSION:2.0",
-        "PRODID:-//SCBdFC//Events//EN",
-        "BEGIN:VEVENT",
-        `UID:${crypto.randomUUID()}@scbdfc`,
-        `DTSTAMP:${dt}Z`,
-        `DTSTART:${dt}`,
-        `DTEND:${dtEnd}`,
-        `SUMMARY:${event.title.replace(/\n/g, " ")}`,
-        `LOCATION:${(event.city||"").replace(/\n/g, " ")}`,
-        `DESCRIPTION:${(event.detailsUrl||"").replace(/\n/g, " ")}`,
-        "END:VEVENT",
-        "END:VCALENDAR"
-      ].join("\r\n");
-
-      const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
-      return URL.createObjectURL(blob);
-    }
-
-    // ---- Render helpers ----
-    const fmtDate = (iso) => {
-      const d = new Date(iso + "T00:00:00");
-      if (isNaN(d.getTime())) return iso;
-      return d.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+  // 🔹 Submit new event to Google Sheet
+  document.getElementById("addEventForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const event = {
+      Title: document.getElementById("eventTitle").value,
+      Date: document.getElementById("eventDate").value,
+      City: document.getElementById("eventCity").value,
+      Type: document.getElementById("eventType").value,
+      DetailsUrl: document.getElementById("eventDetails").value,
+      MapUrl: document.getElementById("eventMap").value,
+      VolunteerUrl: document.getElementById("eventVolunteer").value,
     };
 
-    const createCardHTML = (e) => {
-      const icsHref = makeICS(e);
-      return `
-        <article class="card" data-type="${e.type}">
-          <h4>${e.title}</h4>
-          <div class="when">${fmtDate(e.date)}</div>
-          <div class="where">${e.city}</div>
-          <div class="actions" style="margin-top:12px;">
-            ${e.detailsUrl ? `<a class="btn" href="${e.detailsUrl}" target="_blank" rel="noopener">Details</a>` : ``}
-            ${e.mapUrl ? `<a class="btn" href="${e.mapUrl}" target="_blank" rel="noopener">Map</a>` : ``}
-            ${e.volunteerUrl ? `<a class="btn" href="${e.volunteerUrl}">Volunteer</a>` : ``}
-            <a class="btn" href="${icsHref}" download="event.ics">Add to Calendar</a>
+    await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify(event),
+      headers: { "Content-Type": "application/json" }
+    });
+
+    modal.style.display = "none";
+    e.target.reset();
+    loadEvents();
+  });
+
+  // 🔹 Delete event by Title
+  async function deleteEvent(title) {
+    await fetch(`${API_URL}?title=${encodeURIComponent(title)}`, { method: "DELETE" });
+    loadEvents();
+  }
+
+  // 🔹 Render events split by date
+  function render(events) {
+    const upcomingEl = document.getElementById("upcoming");
+    const pastEl = document.getElementById("past");
+    upcomingEl.innerHTML = "";
+    pastEl.innerHTML = "";
+
+    const today = new Date();
+    events.forEach(e => {
+      const d = new Date(e.Date);
+      const card = `
+        <article class="card">
+          <h4>${e.Title}</h4>
+          <div class="when">${e.Date}</div>
+          <div class="where">${e.City}</div>
+          <div class="actions">
+            <button onclick="deleteEvent('${e.Title}')">Delete</button>
           </div>
         </article>
       `;
-    };
-
-    // ---- Main load ----
-    const featuredEl = document.getElementById('featured');
-    const upcomingEl = document.getElementById('upcoming');
-    const pastEl = document.getElementById('past');
-    const updatedEl = document.getElementById('updated');
-
-    async function loadLocal() {
-      const res = await fetch(LOCAL_JSON_URL, { cache: "no-store" });
-      if (!res.ok) throw new Error("Could not load events.json");
-      const json = await res.json();
-      return json.map(normalize);
-    }
-
-    async function loadSheet() {
-      if (!GOOGLE_SHEET_CSV_URL) return [];
-      const res = await fetch(GOOGLE_SHEET_CSV_URL, { cache: "no-store" });
-      if (!res.ok) { console.warn("Sheet fetch failed:", res.status); return []; }
-      const csv = await res.text();
-      const rows = parseCSV(csv);
-      return rows.map(normalize).filter(r => r.title && r.date);
-    }
-
-    function render(all) {
-      const today = new Date(); today.setHours(0,0,0,0);
-
-      const upcoming = all
-        .filter(e => !e.past && new Date(e.date) >= today)
-        .sort((a,b) => new Date(a.date) - new Date(b.date));
-
-      const past = all
-        .filter(e => e.past || new Date(e.date) < today)
-        .sort((a,b) => new Date(b.date) - new Date(a.date))
-        .slice(0,3);
-
-      // Featured
-      if (upcoming.length) {
-        const f = upcoming[0];
-        featuredEl.innerHTML = `
-          <h3>Next Up: ${f.title}</h3>
-          <div class="meta">
-            <span>${fmtDate(f.date)}</span>
-            <span>${f.city}</span>
-            <span style="text-transform:capitalize;">${f.type}</span>
-          </div>
-          <div class="actions">
-            ${f.detailsUrl ? `<a class="btn" href="${f.detailsUrl}" target="_blank" rel="noopener">Details</a>` : ``}
-            ${f.mapUrl ? `<a class="btn" href="${f.mapUrl}" target="_blank" rel="noopener">Map</a>` : ``}
-            ${f.volunteerUrl ? `<a class="btn" href="${f.volunteerUrl}">Volunteer</a>` : ``}
-            <a class="btn" href="${makeICS(f)}" download="event.ics">Add to Calendar</a>
-          </div>
-        `;
+      if (d >= today) {
+        upcomingEl.innerHTML += card;
       } else {
-        featuredEl.innerHTML = `<p class="subtle">No upcoming events yet — check back soon or <a class="btn" href="https://forms.gle/" target="_blank" rel="noopener">submit one</a>.</p>`;
+        pastEl.innerHTML += card;
       }
+    });
+  }
 
-      // Upcoming grid
-      upcomingEl.innerHTML = upcoming.map(createCardHTML).join('');
+  // Initial load
+  loadEvents();
 
-      // Past highlights
-      pastEl.innerHTML = past.map(createCardHTML).join('');
-
-      // Filters
-      const filtersEl = document.getElementById('filters');
-      filtersEl.addEventListener('click', (e) => {
-        const btn = e.target.closest('.chip');
-        if (!btn) return;
-        [...filtersEl.querySelectorAll('.chip')].forEach(c => c.classList.remove('active'));
-        btn.classList.add('active');
-        const type = btn.dataset.type;
-        const cards = upcomingEl.querySelectorAll('.card');
-        cards.forEach(c => {
-          c.style.display = (type === 'all' || c.dataset.type === type) ? '' : 'none';
-        });
-      });
-
-      // Updated time
-      updatedEl.textContent = new Date().toLocaleString();
-    }
-
-    (async () => {
-      try {
-        const [localEvents, sheetEvents] = await Promise.all([loadLocal(), loadSheet()]);
-        // Merge (sheet rows win on identical title+date)
-        const key = e => `${(e.title||"").toLowerCase()}|${e.date}`;
-        const map = new Map();
-        [...localEvents, ...sheetEvents].forEach(e => map.set(key(e), e));
-        const all = [...map.values()];
-        render(all);
-      } catch (err) {
-        console.error(err);
-        // Fallback: try to render local only
-        try {
-          const localOnly = await loadLocal();
-          render(localOnly);
-        } catch (e2) {
-          featuredEl.innerHTML = `<p class="subtle">Unable to load events right now.</p>`;
-        }
-      }
-    })();
-  </script>
-
-  <!-- Minimal, separate script JUST for the Add Event modal + POST (added) -->
-  <script>
-    // ====== CONFIG: set your deployed Apps Script Web App URL + API key ======
-    const APPS_SCRIPT_URL = "PASTE_WEB_APP_URL_HERE"; // e.g. https://script.google.com/macros/s/AKfycb.../exec
-    const CLIENT_API_KEY  = "PASTE_SAME_API_KEY_HERE";
-
-    // ---- Modal toggles ----
-    const modal = document.getElementById('addEventModal');
-    const openBtn = document.getElementById('openAddEvent');
-    const closeBtn = document.getElementById('closeAddEvent');
-    const cancelBtn = document.getElementById('cancelAddEvent');
-    const form = document.getElementById('addEventForm');
-    const statusEl = document.getElementById('addEventStatus');
-    const submitBtn = document.getElementById('submitAddEvent');
-
-    function openModal() { modal.classList.add('active'); modal.setAttribute('aria-hidden','false'); statusEl.textContent=""; }
-    function closeModal() { modal.classList.remove('active'); modal.setAttribute('aria-hidden','true'); form.reset(); statusEl.textContent=""; submitBtn.disabled = false; }
-
-    if (openBtn) openBtn.addEventListener('click', openModal);
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-    if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
-    if (modal) modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
-
-    // ---- Submit handler: POST JSON to Apps Script ----
-    if (form) {
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const fd = new FormData(form);
-        const payload = {
-          title: fd.get('title')?.trim(),
-          type: (fd.get('type')||'show').trim().toLowerCase(),
-          date: fd.get('date')?.trim(),        // YYYY-MM-DD
-          city: fd.get('city')?.trim(),
-          detailsUrl: fd.get('detailsUrl')?.trim(),
-          mapUrl: fd.get('mapUrl')?.trim(),
-          volunteerUrl: fd.get('volunteerUrl')?.trim() || "volunteer.html",
-          past: false,
-          apiKey: CLIENT_API_KEY // in-body fallback for Apps Script
-        };
-
-        // basic client validation
-        if (!payload.title || !payload.date || !payload.city) {
-          statusEl.textContent = "Please fill all required fields (*).";
-          return;
-        }
-
-        statusEl.textContent = "Saving…";
-        submitBtn.disabled = true;
-
-        try {
-          const res = await fetch(APPS_SCRIPT_URL + "?key=" + encodeURIComponent(CLIENT_API_KEY), {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-              // Apps Script header access is limited; we pass key via query + body
-            },
-            body: JSON.stringify(payload),
-            mode: "cors",
-            cache: "no-store"
-          });
-
-          const data = await res.json().catch(()=>({ok:false, error:"Bad JSON"}));
-          if (!res.ok || !data.ok) throw new Error(data.error || ("HTTP "+res.status));
-
-          statusEl.textContent = "Saved! Refreshing list…";
-          setTimeout(()=> { location.reload(); }, 700);
-        } catch (err) {
-          console.error(err);
-          statusEl.textContent = "Error saving event. Please try again.";
-          submitBtn.disabled = false;
-        }
-      });
-    }
+  // Mobile menu
+  document.querySelector('.menu-toggle').addEventListener('click', () => {
+    document.querySelector('.dropdown').classList.toggle('active');
+  });
   </script>
 </body>
 </html>
