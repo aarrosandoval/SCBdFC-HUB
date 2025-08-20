@@ -67,6 +67,19 @@
     .actions a:hover {
       background: #005fa3;
     }
+
+    /* Featured event */
+    .featured {
+      grid-column: 1 / -1;
+      background: linear-gradient(135deg, #ffda85, #ffc857);
+      border-left: 8px solid #ff9800;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+      padding: 1.5rem;
+    }
+    .featured h4 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
   </style>
 </head>
 <body>
@@ -106,18 +119,23 @@
   <script>
   const API_URL = "https://script.google.com/macros/s/AKfycbwsS_aBFyW6jGFRjP4xBtgy6o8DucAEPh1Ps5QCfvNka64rHXsUFXVMKRkbV5Gb9vM/exec";
 
-  // Load events
   async function loadEvents() {
     try {
       const res = await fetch(API_URL);
-      const events = await res.json();
+      let events = await res.json();
+
+      // sort by date (oldest upcoming first, newest past first)
+      events = events.filter(e => e.Date).map(e => ({
+        ...e,
+        dateObj: new Date(e.Date)
+      })).sort((a, b) => a.dateObj - b.dateObj);
+
       render(events);
     } catch (err) {
       console.error("Failed to load events:", err);
     }
   }
 
-  // Render events
   function render(events) {
     const upcomingEl = document.getElementById("upcoming");
     const pastEl = document.getElementById("past");
@@ -125,28 +143,39 @@
     pastEl.innerHTML = "";
 
     const today = new Date().setHours(0,0,0,0);
+    const upcomingEvents = events.filter(e => e.dateObj >= today);
+    const pastEvents = events.filter(e => e.dateObj < today)
+                             .sort((a,b) => b.dateObj - a.dateObj);
 
-    events.forEach(e => {
-      const d = new Date(e.Date).setHours(0,0,0,0);
-      const card = `
-        <article class="card">
-          <h4>${e.Title}</h4>
-          <div class="info">📅 ${e.Date}</div>
-          <div class="info">📍 ${e.City || ""}</div>
-          <div class="info">🔖 ${e.Type || ""}</div>
-          <div class="actions">
-            ${e.DetailsUrl ? `<a href="${e.DetailsUrl}" target="_blank">Details</a>` : ""}
-            ${e.MapUrl ? `<a href="${e.MapUrl}" target="_blank">Map</a>` : ""}
-            ${e.VolunteerUrl ? `<a href="${e.VolunteerUrl}" target="_blank">Volunteer</a>` : ""}
-          </div>
-        </article>
-      `;
-      if (d >= today) {
-        upcomingEl.innerHTML += card;
-      } else {
-        pastEl.innerHTML += card;
-      }
+    // Featured next event
+    if (upcomingEvents.length > 0) {
+      const next = upcomingEvents[0];
+      upcomingEl.innerHTML += createCard(next, true);
+      upcomingEvents.slice(1).forEach(e => {
+        upcomingEl.innerHTML += createCard(e);
+      });
+    }
+
+    // Past events
+    pastEvents.forEach(e => {
+      pastEl.innerHTML += createCard(e);
     });
+  }
+
+  function createCard(e, featured=false) {
+    return `
+      <article class="card ${featured ? "featured" : ""}">
+        <h4>${e.Title}</h4>
+        <div class="info">📅 ${e.Date}</div>
+        <div class="info">📍 ${e.City || ""}</div>
+        <div class="info">🔖 ${e.Type || ""}</div>
+        <div class="actions">
+          ${e.DetailsUrl ? `<a href="${e.DetailsUrl}" target="_blank">Details</a>` : ""}
+          ${e.MapUrl ? `<a href="${e.MapUrl}" target="_blank">Map</a>` : ""}
+          ${e.VolunteerUrl ? `<a href="${e.VolunteerUrl}" target="_blank">Volunteer</a>` : ""}
+        </div>
+      </article>
+    `;
   }
 
   loadEvents();
