@@ -346,3 +346,58 @@ body {
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
 }
+/* Event card layout with date badge */
+.card {
+  display: flex;
+  align-items: flex-start;
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+/* Date badge */
+.date-badge {
+  flex-shrink: 0;
+  background: #0077cc;
+  color: #fff;
+  border-radius: 8px;
+  text-align: center;
+  padding: 0.3rem 0.6rem;
+  margin-right: 1rem;
+}
+.date-badge .month {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.date-badge .day {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+/* Card content */
+.card-body {
+  flex: 1;
+}
+.card-body h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  color: #222;
+}
+.info {
+  font-size: 0.9rem;
+  margin: 0.3rem 0;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
