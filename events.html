@@ -93,4 +93,81 @@
     <div id="upcoming" class="event-grid"></div>
 
     <h2>Past Events</h2>
-    <div id="past"
+    <div id="past" class="event-grid"></div>
+  </main>
+
+  <footer class="club-footer">
+    <p>&copy; 2025 Southern California Bouvier des Flandres Club | 
+      <a href="https://bouvier.org" target="_blank">National Club</a>
+    </p>
+  </footer>
+
+  <script>
+  const API_URL = "https://script.google.com/macros/s/AKfycbwsS_aBFyW6jGFRjP4xBtgy6o8DucAEPh1Ps5QCfvNka64rHXsUFXVMKRkbV5Gb9vM/exec";
+
+  async function loadEvents() {
+    try {
+      const res = await fetch(API_URL);
+      let events = await res.json();
+
+      // sort by date
+      events = events.filter(e => e.Date).map(e => ({
+        ...e,
+        dateObj: new Date(e.Date)
+      })).sort((a, b) => a.dateObj - b.dateObj);
+
+      render(events);
+    } catch (err) {
+      console.error("Failed to load events:", err);
+    }
+  }
+
+  function render(events) {
+    const upcomingEl = document.getElementById("upcoming");
+    const pastEl = document.getElementById("past");
+    upcomingEl.innerHTML = "";
+    pastEl.innerHTML = "";
+
+    const today = new Date().setHours(0,0,0,0);
+    const upcomingEvents = events.filter(e => e.dateObj >= today);
+    const pastEvents = events.filter(e => e.dateObj < today)
+                             .sort((a,b) => b.dateObj - a.dateObj);
+
+    // Featured event
+    if (upcomingEvents.length > 0) {
+      upcomingEl.innerHTML += createCard(upcomingEvents[0], true);
+      upcomingEvents.slice(1).forEach(e => {
+        upcomingEl.innerHTML += createCard(e);
+      });
+    }
+
+    // Past events
+    pastEvents.forEach(e => {
+      pastEl.innerHTML += createCard(e);
+    });
+  }
+
+  function createCard(e, featured=false) {
+    return `
+      <article class="card ${featured ? "featured" : ""}">
+        <h4>${e.Title}</h4>
+        <div class="info">📅 ${e.Date}</div>
+        <div class="info">📍 ${e.City || ""}</div>
+        <div class="info">🔖 ${e.Type || ""}</div>
+        <div class="actions">
+          ${e.DetailsUrl ? `<a href="${e.DetailsUrl}" target="_blank">Details</a>` : ""}
+          ${e.MapUrl ? `<a href="${e.MapUrl}" target="_blank">Map</a>` : ""}
+          ${e.VolunteerUrl ? `<a href="${e.VolunteerUrl}" target="_blank">Volunteer</a>` : ""}
+        </div>
+      </article>
+    `;
+  }
+
+  loadEvents();
+
+  document.querySelector('.menu-toggle').addEventListener('click', () => {
+    document.querySelector('.dropdown').classList.toggle('active');
+  });
+  </script>
+</body>
+</html>
