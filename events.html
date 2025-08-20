@@ -5,6 +5,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SCBdFC Member Hub - Events</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Inline CSS just for clarity — you can move to styles.css */
+    .card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 1rem;
+      margin: 0.5rem 0;
+      background: #fff;
+    }
+    .card h4 {
+      margin: 0 0 0.5rem 0;
+    }
+    .card .when,
+    .card .where {
+      font-size: 0.9rem;
+      color: #444;
+    }
+    .actions {
+      margin-top: 0.5rem;
+    }
+    .actions a, .actions button {
+      margin-right: 8px;
+      padding: 4px 8px;
+      font-size: 0.85rem;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+      background: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 400px;
+    }
+    .close {
+      float: right;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+  </style>
 </head>
 <body>
   <header class="club-header">
@@ -74,6 +120,102 @@
     </div>
   </div>
 
-  <!-- Scripts -->
   <script>
-  const API_URL = "https://script.google.com/macros/s/AKfycbyZxagjk8FaLwcLGrCkYGzckypvb2PobsCOrEXQ59ArTkUT5llwXg5u9aKso_
+  const API_URL = "https://script.google.com/macros/s/AKfycbxP3roAo6kew-fdd9Ozxc3J-Gv_XEw3h9J7H_AlabffinxgYZpL-geR-M05FFtLZq8/exec";
+
+  // 🔹 Modal handling
+  const modal = document.getElementById("eventModal");
+  const openBtn = document.getElementById("openModalBtn");
+  const closeBtn = document.querySelector(".close");
+
+  openBtn.onclick = () => modal.style.display = "block";
+  closeBtn.onclick = () => modal.style.display = "none";
+  window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
+
+  // 🔹 Load events from Google Sheet
+  async function loadEvents() {
+    try {
+      const res = await fetch(API_URL);
+      const events = await res.json();
+      render(events);
+    } catch (err) {
+      console.error("Failed to load events:", err);
+    }
+  }
+
+  // 🔹 Submit new event
+  document.getElementById("addEventForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const event = {
+      Title: document.getElementById("eventTitle").value.trim(),
+      Date: document.getElementById("eventDate").value,
+      City: document.getElementById("eventCity").value.trim(),
+      Type: document.getElementById("eventType").value.trim(),
+      DetailsUrl: document.getElementById("eventDetails").value.trim(),
+      MapUrl: document.getElementById("eventMap").value.trim(),
+      VolunteerUrl: document.getElementById("eventVolunteer").value.trim(),
+    };
+
+    await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify(event),
+      headers: { "Content-Type": "application/json" }
+    });
+
+    modal.style.display = "none";
+    e.target.reset();
+    loadEvents();
+  });
+
+  // 🔹 Delete event by Title
+  async function deleteEvent(title) {
+    await fetch(`${API_URL}?title=${encodeURIComponent(title)}`, { method: "DELETE" });
+    loadEvents();
+  }
+
+  // 🔹 Render events split by date
+  function render(events) {
+    const upcomingEl = document.getElementById("upcoming");
+    const pastEl = document.getElementById("past");
+    upcomingEl.innerHTML = "";
+    pastEl.innerHTML = "";
+
+    const today = new Date().setHours(0,0,0,0);
+
+    events.forEach(e => {
+      const d = new Date(e.Date).setHours(0,0,0,0);
+      const links = `
+        ${e.DetailsUrl ? `<a href="${e.DetailsUrl}" target="_blank">Details</a>` : ""}
+        ${e.MapUrl ? `<a href="${e.MapUrl}" target="_blank">Map</a>` : ""}
+        ${e.VolunteerUrl ? `<a href="${e.VolunteerUrl}" target="_blank">Volunteer</a>` : ""}
+      `;
+      const card = `
+        <article class="card">
+          <h4>${e.Title}</h4>
+          <div class="when">📅 ${e.Date}</div>
+          <div class="where">📍 ${e.City || ""}</div>
+          <div class="type">🔖 ${e.Type || ""}</div>
+          <div class="actions">
+            ${links}
+            <button onclick="deleteEvent('${e.Title}')">Delete</button>
+          </div>
+        </article>
+      `;
+      if (d >= today) {
+        upcomingEl.innerHTML += card;
+      } else {
+        pastEl.innerHTML += card;
+      }
+    });
+  }
+
+  // Initial load
+  loadEvents();
+
+  // Mobile menu toggle
+  document.querySelector('.menu-toggle').addEventListener('click', () => {
+    document.querySelector('.dropdown').classList.toggle('active');
+  });
+  </script>
+</body>
+</html>
