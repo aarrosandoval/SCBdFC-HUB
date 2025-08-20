@@ -85,11 +85,19 @@
     });
   }
 
-  function createCard(e, featured=false) {
-    return `
-      <article class="card ${featured ? "featured" : ""}">
+ function createCard(e, featured=false) {
+  const date = new Date(e.Date);
+  const month = date.toLocaleString("default", { month: "short" });
+  const day = date.getDate();
+
+  return `
+    <article class="card ${featured ? "featured" : ""}">
+      <div class="date-badge">
+        <span class="month">${month}</span>
+        <span class="day">${day}</span>
+      </div>
+      <div class="card-body">
         <h4>${e.Title}</h4>
-        <div class="info">📅 ${e.Date}</div>
         <div class="info">📍 ${e.City || ""}</div>
         <div class="info">🔖 ${e.Type || ""}</div>
         <div class="actions">
@@ -97,9 +105,10 @@
           ${e.MapUrl ? `<a href="${e.MapUrl}" target="_blank">Map</a>` : ""}
           ${e.VolunteerUrl ? `<a href="${e.VolunteerUrl}" target="_blank">Volunteer</a>` : ""}
         </div>
-      </article>
-    `;
-  }
+      </div>
+    </article>
+  `;
+}
 
   loadEvents();
 
