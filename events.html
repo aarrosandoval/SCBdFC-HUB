@@ -5,16 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SCBdFC Member Hub - Events</title>
   <link rel="stylesheet" href="styles.css"/>
+  <style>
+    /* Page-specific light styling (uses your palette) */
+    .events-wrap { max-width: 1100px; margin: 0 auto; padding: 30px 20px 60px; }
+    .featured { 
+      background: rgba(65,90,119,0.35); 
+      border: 1px solid rgba(255,255,255,0.12);
+      border-left: 4px solid #00b4d8;
+      border-radius: 14px; 
+      padding: 24px; 
+      margin-bottom: 28px; 
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 25px rgba(0,180,216,0.18);
+    }
+    .featured h3 { margin: 0 0 10px; color:#00b4d8; font-size: 1.4rem; }
+    .meta { display:flex; flex-wrap:wrap; gap:14px; margin: 10px 0 14px; color:#cfd8e3; }
+    .meta span { background: rgba(255,255,255,0.06); padding:6px 10px; border-radius: 999px; border:1px solid rgba(255,255,255,0.08); }
+    .actions { display:flex; flex-wrap:wrap; gap:10px; margin-top: 10px; }
+    .btn {
+      display:inline-block; padding:10px 14px; border-radius:10px; 
+      text-decoration:none; color:#eaeaea; border:1px solid rgba(255,255,255,0.12);
+      background: rgba(13,27,42,0.6); transition: transform .2s ease, box-shadow .3s ease, border .3s ease;
+    }
+    .btn:hover { transform: translateY(-2px); border-color:#00b4d8; box-shadow: 0 8px 18px rgba(0,180,216,.28); }
+    .filters { display:flex; flex-wrap:wrap; gap:10px; margin: 8px 0 22px; }
+    .chip { cursor:pointer; padding:8px 12px; border-radius:999px; border:1px solid rgba(255,255,255,0.12); background: rgba(65,90,119,0.25); }
+    .chip.active { border-color:#00b4d8; box-shadow: inset 0 0 0 1px #00b4d8; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:18px; }
+    .card { 
+      background: rgba(65,90,119,0.28); border:1px solid rgba(255,255,255,0.1); 
+      border-radius:12px; padding:18px; backdrop-filter: blur(10px);
+      transition: transform .2s ease, box-shadow .3s ease, border .3s ease;
+      min-height: 180px;
+    }
+    .card:hover { transform: translateY(-6px); border-color:#00b4d8; box-shadow: 0 12px 24px rgba(0,180,216,.22); }
+    .card h4 { margin:0 0 6px; color:#00b4d8; }
+    .card .when { color:#eaeaea; font-weight:600; }
+    .card .where { color:#cbd5e1; }
+    .subtle { color:#9fb3c8; font-size: .95rem; }
+    .section-title { text-align:center; font-size:1.9rem; margin:32px 0 18px; color:#eaeaea; text-shadow: 0 0 6px rgba(0,180,216,.25); }
+    .note { text-align:center; margin-top: 26px; color:#a8c0d6; font-size:.95rem; }
+    .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .past { opacity:.92; }
+  </style>
 </head>
 <body>
   <header class="club-header">
     <div class="header-container">
-  <a href="index.html">
-    <img src="club-logo.jpg" alt="Club Logo" class="club-logo" />
-  </a>
-  <h1>Southern California Bouvier des Flandres Club Member Hub</h1>
-</div>
-
+      <a href="index.html">
+        <img src="club-logo.jpg" alt="Club Logo" class="club-logo" />
+      </a>
+      <h1>Southern California Bouvier des Flandres Club Member Hub</h1>
+    </div>
     <nav class="club-nav">
       <a href="index.html">Home</a>
       <a href="events.html">Events</a>
@@ -26,13 +68,197 @@
     </nav>
   </header>
 
-  <main>
-    <h2>Upcoming Events</h2>
-    <p>Stay updated on supported entries, specialties, and regional show info across Southern California.</p>
+  <main class="events-wrap">
+    <h2 class="section-title">Featured Next Event</h2>
+    <section id="featured" class="featured" aria-live="polite">
+      <!-- filled by JS -->
+    </section>
+
+    <h2 class="section-title">Upcoming Southern California Events</h2>
+    <div class="filters" id="filters">
+      <button class="chip active" data-type="all">All</button>
+      <button class="chip" data-type="show">Show</button>
+      <button class="chip" data-type="meetup">Meetup/Practice</button>
+      <button class="chip" data-type="seminar">Seminar/Clinic</button>
+      <button class="chip" data-type="volunteer">Volunteer</button>
+    </div>
+
+    <section id="upcoming" class="grid" aria-live="polite">
+      <!-- cards rendered by JS -->
+    </section>
+
+    <h2 class="section-title">National Specialty</h2>
+    <section class="card" style="border-left:4px solid #00b4d8;">
+      <h4>National Specialty – Bouvier des Flandres</h4>
+      <div class="subtle">Dates TBA · Location varies</div>
+      <p class="subtle">We support and promote attendance at the National. Travel notes, entry links, and meetup plans will be posted here when available.</p>
+      <div class="actions">
+        <a class="btn" href="newsletter.html">Watch Newsletter</a>
+        <a class="btn" href="bragboard.html">Post Wins after the Show</a>
+      </div>
+    </section>
+
+    <h2 class="section-title">Past Highlights</h2>
+    <section id="past" class="grid past">
+      <!-- last 3 past events by JS -->
+    </section>
+
+    <div class="row" style="justify-content:center; margin-top:26px;">
+      <a class="btn" href="https://forms.gle/" target="_blank" rel="noopener">Submit an Event</a>
+      <a class="btn" href="volunteer.html">Volunteer for Events</a>
+    </div>
+
+    <p class="note">Last updated: <span id="updated">—</span></p>
   </main>
 
   <footer class="club-footer">
     <p>&copy; 2025 Southern California Bouvier des Flandres Club</p>
   </footer>
+
+  <script>
+    // ---- Events data (edit here) ----
+    const events = [
+      // Upcoming (Southern California)
+      {
+        title: "Supported Entry – Del Mar",
+        type: "show",
+        date: "2025-09-14",
+        city: "Del Mar, CA",
+        detailsUrl: "#",
+        mapUrl: "https://maps.google.com/?q=Del+Mar+Fairgrounds",
+        volunteerUrl: "volunteer.html",
+        ics: "data:text/calendar;charset=utf8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ASUMMARY:SCBdFC%20Supported%20Entry%20%E2%80%93%20Del%20Mar%0ADTSTART:20250914%0ADTEND:20250914%0ALOCATION:Del%20Mar%20Fairgrounds%0AEND:VEVENT%0AEND:VCALENDAR"
+      },
+      {
+        title: "Ring Handling Practice – Orange County",
+        type: "meetup",
+        date: "2025-10-05",
+        city: "Orange, CA",
+        detailsUrl: "#",
+        mapUrl: "https://maps.google.com/?q=Irvine+Regional+Park",
+        volunteerUrl: "volunteer.html"
+      },
+      {
+        title: "Grooming Clinic – San Diego",
+        type: "seminar",
+        date: "2025-11-02",
+        city: "San Diego, CA",
+        detailsUrl: "#",
+        mapUrl: "https://maps.google.com/?q=San+Diego",
+        volunteerUrl: "volunteer.html"
+      },
+      // Past (a few examples)
+      {
+        title: "Summer Specialty – Long Beach",
+        type: "show",
+        date: "2025-06-08",
+        city: "Long Beach, CA",
+        detailsUrl: "#",
+        mapUrl: "https://maps.google.com/?q=Long+Beach",
+        volunteerUrl: "volunteer.html",
+        past: true
+      },
+      {
+        title: "Bouvier Meetup – Pasadena",
+        type: "meetup",
+        date: "2025-05-11",
+        city: "Pasadena, CA",
+        detailsUrl: "#",
+        mapUrl: "https://maps.google.com/?q=Pasadena",
+        volunteerUrl: "volunteer.html",
+        past: true
+      },
+      {
+        title: "Handling Seminar – Riverside",
+        type: "seminar",
+        date: "2025-03-16",
+        city: "Riverside, CA",
+        detailsUrl: "#",
+        mapUrl: "https://maps.google.com/?q=Riverside",
+        volunteerUrl: "volunteer.html",
+        past: true
+      }
+    ];
+
+    // ---- Helpers ----
+    const fmtDate = (iso) => {
+      const d = new Date(iso + "T00:00:00");
+      return d.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+    };
+
+    const createCardHTML = (e) => `
+      <article class="card" data-type="${e.type}">
+        <h4>${e.title}</h4>
+        <div class="when">${fmtDate(e.date)}</div>
+        <div class="where">${e.city}</div>
+        <div class="actions" style="margin-top:12px;">
+          ${e.detailsUrl ? `<a class="btn" href="${e.detailsUrl}" target="_blank" rel="noopener">Details</a>` : ``}
+          ${e.mapUrl ? `<a class="btn" href="${e.mapUrl}" target="_blank" rel="noopener">Map</a>` : ``}
+          ${e.volunteerUrl ? `<a class="btn" href="${e.volunteerUrl}">Volunteer</a>` : ``}
+          ${e.ics ? `<a class="btn" href="${e.ics}" download="event.ics">Add to Calendar</a>` : ``}
+        </div>
+      </article>
+    `;
+
+    // ---- Render ----
+    const upcomingEl = document.getElementById('upcoming');
+    const featuredEl = document.getElementById('featured');
+    const pastEl = document.getElementById('past');
+    const updatedEl = document.getElementById('updated');
+
+    const today = new Date();
+    const upcoming = events
+      .filter(e => !e.past && new Date(e.date) >= new Date(today.toDateString()))
+      .sort((a,b) => new Date(a.date) - new Date(b.date));
+
+    const past = events
+      .filter(e => e.past || new Date(e.date) < new Date(today.toDateString()))
+      .sort((a,b) => new Date(b.date) - new Date(a.date))
+      .slice(0,3);
+
+    // Featured = first upcoming
+    if (upcoming.length) {
+      const f = upcoming[0];
+      featuredEl.innerHTML = `
+        <h3>Next Up: ${f.title}</h3>
+        <div class="meta">
+          <span>${fmtDate(f.date)}</span>
+          <span>${f.city}</span>
+          <span style="text-transform:capitalize;">${f.type}</span>
+        </div>
+        <div class="actions">
+          ${f.detailsUrl ? `<a class="btn" href="${f.detailsUrl}" target="_blank" rel="noopener">Details</a>` : ``}
+          ${f.mapUrl ? `<a class="btn" href="${f.mapUrl}" target="_blank" rel="noopener">Map</a>` : ``}
+          ${f.volunteerUrl ? `<a class="btn" href="${f.volunteerUrl}">Volunteer</a>` : ``}
+          ${f.ics ? `<a class="btn" href="${f.ics}" download="event.ics">Add to Calendar</a>` : ``}
+        </div>
+      `;
+    } else {
+      featuredEl.innerHTML = `<p class="subtle">No upcoming events yet — check back soon or <a class="btn" href="https://forms.gle/" target="_blank" rel="noopener">submit one</a>.</p>`;
+    }
+
+    // Upcoming list
+    upcomingEl.innerHTML = upcoming.map(createCardHTML).join('');
+
+    // Past highlights
+    pastEl.innerHTML = past.map(createCardHTML).join('');
+
+    // Filters
+    const filtersEl = document.getElementById('filters');
+    filtersEl.addEventListener('click', (e) => {
+      const btn = e.target.closest('.chip');
+      if (!btn) return;
+      [...filtersEl.querySelectorAll('.chip')].forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      const type = btn.dataset.type;
+      const cards = upcomingEl.querySelectorAll('.card');
+      cards.forEach(c => {
+        c.style.display = (type === 'all' || c.dataset.type === type) ? '' : 'none';
+      });
+    });
+
+    // Updated timestamp
+    updatedEl.textContent = new Date().toLocaleString();
+  </script>
 </body>
 </html>
