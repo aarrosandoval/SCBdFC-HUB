@@ -34,6 +34,39 @@
     .note { text-align:center; margin-top: 26px; color:#a8c0d6; font-size:.95rem; }
     .row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center; }
     .past { opacity:.92; }
+
+    /* === Modal (added) === */
+    .modal-backdrop {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+      display: none; align-items: center; justify-content: center;
+      z-index: 2000; backdrop-filter: blur(2px);
+    }
+    .modal-backdrop.active { display: flex; }
+    .modal {
+      width: min(560px, 92vw);
+      background: rgba(27,38,59,0.98);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      box-shadow: 0 18px 46px rgba(0,0,0,0.6);
+    }
+    .modal-header {
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .modal-header h3 { margin:0; color:#00b4d8; }
+    .modal-close {
+      background:none; border:none; color:#eaeaea; font-size:1.2rem; cursor:pointer;
+    }
+    .modal-body { padding: 16px 18px 20px; }
+    .field { display:flex; flex-direction:column; gap:6px; margin-bottom:12px; }
+    .field label { color:#cfd8e3; font-size:.95rem; }
+    .field input, .field select {
+      background: rgba(65,90,119,0.25);
+      border:1px solid rgba(255,255,255,0.12);
+      color:#eaeaea; border-radius:10px; padding:10px 12px; outline:none;
+    }
+    .field input:focus, .field select:focus { border-color:#00b4d8; box-shadow: 0 0 0 2px rgba(0,180,216,.2); }
+    .btn[disabled] { opacity:.6; cursor: not-allowed; }
   </style>
 </head>
 <body>
@@ -60,6 +93,12 @@
     <section id="featured" class="featured" aria-live="polite"></section>
 
     <h2 class="section-title">Upcoming Southern California Events</h2>
+
+    <!-- Add Event button (added) -->
+    <div class="row" style="justify-content:flex-end; margin: 8px 0 16px;">
+      <button class="btn" id="openAddEvent">+ Add Event</button>
+    </div>
+
     <div class="filters" id="filters">
       <button class="chip active" data-type="all">All</button>
       <button class="chip" data-type="show">Show</button>
@@ -90,6 +129,57 @@
     </div>
 
     <p class="note">Last updated: <span id="updated">—</span></p>
+
+    <!-- Add Event Modal (added) -->
+    <div class="modal-backdrop" id="addEventModal" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="addEventTitle">
+        <div class="modal-header">
+          <h3 id="addEventTitle">Add Event</h3>
+          <button class="modal-close" id="closeAddEvent" aria-label="Close">✕</button>
+        </div>
+        <form id="addEventForm" class="modal-body">
+          <div class="field">
+            <label>Title*</label>
+            <input type="text" name="title" required placeholder="Supported Entry – Del Mar" />
+          </div>
+          <div class="field">
+            <label>Type*</label>
+            <select name="type" required>
+              <option value="show">Show</option>
+              <option value="meetup">Meetup/Practice</option>
+              <option value="seminar">Seminar/Clinic</option>
+              <option value="volunteer">Volunteer</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Date* (YYYY-MM-DD)</label>
+            <input type="date" name="date" required />
+          </div>
+          <div class="field">
+            <label>City*</label>
+            <input type="text" name="city" required placeholder="Del Mar, CA" />
+          </div>
+          <div class="field">
+            <label>Details URL</label>
+            <input type="url" name="detailsUrl" placeholder="https://…" />
+          </div>
+          <div class="field">
+            <label>Map URL</label>
+            <input type="url" name="mapUrl" placeholder="https://maps.google.com/…" />
+          </div>
+          <div class="field">
+            <label>Volunteer URL</label>
+            <input type="url" name="volunteerUrl" placeholder="volunteer.html" />
+          </div>
+
+          <div class="row" style="justify-content:flex-end; gap:10px;">
+            <button type="button" class="btn" id="cancelAddEvent">Cancel</button>
+            <button type="submit" class="btn" id="submitAddEvent">Save Event</button>
+          </div>
+          <p class="subtle" id="addEventStatus" style="margin-top:10px;"></p>
+        </form>
+      </div>
+    </div>
   </main>
 
   <footer class="club-footer">
@@ -295,5 +385,81 @@
       }
     })();
   </script>
+
+  <!-- Minimal, separate script JUST for the Add Event modal + POST (added) -->
+  <script>
+    // ====== CONFIG: set your deployed Apps Script Web App URL + API key ======
+    const APPS_SCRIPT_URL = "PASTE_WEB_APP_URL_HERE"; // e.g. https://script.google.com/macros/s/AKfycb.../exec
+    const CLIENT_API_KEY  = "PASTE_SAME_API_KEY_HERE";
+
+    // ---- Modal toggles ----
+    const modal = document.getElementById('addEventModal');
+    const openBtn = document.getElementById('openAddEvent');
+    const closeBtn = document.getElementById('closeAddEvent');
+    const cancelBtn = document.getElementById('cancelAddEvent');
+    const form = document.getElementById('addEventForm');
+    const statusEl = document.getElementById('addEventStatus');
+    const submitBtn = document.getElementById('submitAddEvent');
+
+    function openModal() { modal.classList.add('active'); modal.setAttribute('aria-hidden','false'); statusEl.textContent=""; }
+    function closeModal() { modal.classList.remove('active'); modal.setAttribute('aria-hidden','true'); form.reset(); statusEl.textContent=""; submitBtn.disabled = false; }
+
+    if (openBtn) openBtn.addEventListener('click', openModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+    if (modal) modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
+
+    // ---- Submit handler: POST JSON to Apps Script ----
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fd = new FormData(form);
+        const payload = {
+          title: fd.get('title')?.trim(),
+          type: (fd.get('type')||'show').trim().toLowerCase(),
+          date: fd.get('date')?.trim(),        // YYYY-MM-DD
+          city: fd.get('city')?.trim(),
+          detailsUrl: fd.get('detailsUrl')?.trim(),
+          mapUrl: fd.get('mapUrl')?.trim(),
+          volunteerUrl: fd.get('volunteerUrl')?.trim() || "volunteer.html",
+          past: false,
+          apiKey: CLIENT_API_KEY // in-body fallback for Apps Script
+        };
+
+        // basic client validation
+        if (!payload.title || !payload.date || !payload.city) {
+          statusEl.textContent = "Please fill all required fields (*).";
+          return;
+        }
+
+        statusEl.textContent = "Saving…";
+        submitBtn.disabled = true;
+
+        try {
+          const res = await fetch(APPS_SCRIPT_URL + "?key=" + encodeURIComponent(CLIENT_API_KEY), {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+              // Apps Script header access is limited; we pass key via query + body
+            },
+            body: JSON.stringify(payload),
+            mode: "cors",
+            cache: "no-store"
+          });
+
+          const data = await res.json().catch(()=>({ok:false, error:"Bad JSON"}));
+          if (!res.ok || !data.ok) throw new Error(data.error || ("HTTP "+res.status));
+
+          statusEl.textContent = "Saved! Refreshing list…";
+          setTimeout(()=> { location.reload(); }, 700);
+        } catch (err) {
+          console.error(err);
+          statusEl.textContent = "Error saving event. Please try again.";
+          submitBtn.disabled = false;
+        }
+      });
+    }
+  </script>
 </body>
 </html>
+
