@@ -1,0 +1,41 @@
+[
+  {
+    "title": "Supported Entry – Del Mar",
+    "type": "show",
+    "date": "2025-09-14",
+    "city": "Del Mar, CA",
+    "detailsUrl": "#",
+    "mapUrl": "https://maps.google.com/?q=Del+Mar+Fairgrounds",
+    "volunteerUrl": "volunteer.html"
+  },
+  {
+    "title": "Ring Handling Practice – Orange County",
+    "type": "meetup",
+    "date": "2025-10-05",
+    "city": "Orange, CA",
+    "detailsUrl": "#",
+    "mapUrl": "https://maps.google.com/?q=Irvine+Regional+Park",
+    "volunteerUrl": "volunteer.html"
+  },
+  {
+    "title": "Grooming Clinic – San Diego",
+    "type": "seminar",
+    "date": "2025-11-02",
+    "city": "San Diego, CA",
+    "detailsUrl": "#",
+    "mapUrl": "https://maps.google.com/?q=San+Diego",
+    "volunteerUrl": "volunteer.html"
+  },
+
+  /* ---- Past highlights (optional) ---- */
+  {
+    "title": "Summer Specialty – Long Beach",
+    "type": "show",
+    "date": "2025-06-08",
+    "city": "Long Beach, CA",
+    "detailsUrl": "#",
+    "mapUrl": "https://maps.google.com/?q=Long+Beach",
+    "volunteerUrl": "volunteer.html",
+    "past": true
+  }
+]
