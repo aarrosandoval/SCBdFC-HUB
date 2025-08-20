@@ -17,7 +17,7 @@
     </div>
     <nav class="club-nav dropdown">
       <a href="index.html">Home</a>
-      <a href="events.html">Events</a>
+      <a href="events.html" class="active">Events</a>
       <a href="newsletter.html">Newsletter</a>
       <a href="bragboard.html">Brag Board</a>
       <a href="volunteer.html">Volunteer</a>
@@ -76,88 +76,4 @@
 
   <!-- Scripts -->
   <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbyZxagjk8FaLwcLGrCkYGzckypvb2PobsCOrEXQ59ArTkUT5llwXg5u9aKsoi6b5wQmaA/exec";
-  // 🔹 Modal handling
-  const modal = document.getElementById("eventModal");
-  const openBtn = document.getElementById("openModalBtn");
-  const closeBtn = document.querySelector(".close");
-
-  openBtn.onclick = () => modal.style.display = "block";
-  closeBtn.onclick = () => modal.style.display = "none";
-  window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
-
-  // 🔹 Load events from Google Sheet
-  async function loadEvents() {
-    const res = await fetch(API_URL);
-    const events = await res.json();
-    render(events);
-  }
-
-  // 🔹 Submit new event to Google Sheet
-  document.getElementById("addEventForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const event = {
-      Title: document.getElementById("eventTitle").value,
-      Date: document.getElementById("eventDate").value,
-      City: document.getElementById("eventCity").value,
-      Type: document.getElementById("eventType").value,
-      DetailsUrl: document.getElementById("eventDetails").value,
-      MapUrl: document.getElementById("eventMap").value,
-      VolunteerUrl: document.getElementById("eventVolunteer").value,
-    };
-
-    await fetch(API_URL, {
-      method: "POST",
-      body: JSON.stringify(event),
-      headers: { "Content-Type": "application/json" }
-    });
-
-    modal.style.display = "none";
-    e.target.reset();
-    loadEvents();
-  });
-
-  // 🔹 Delete event by Title
-  async function deleteEvent(title) {
-    await fetch(`${API_URL}?title=${encodeURIComponent(title)}`, { method: "DELETE" });
-    loadEvents();
-  }
-
-  // 🔹 Render events split by date
-  function render(events) {
-    const upcomingEl = document.getElementById("upcoming");
-    const pastEl = document.getElementById("past");
-    upcomingEl.innerHTML = "";
-    pastEl.innerHTML = "";
-
-    const today = new Date();
-    events.forEach(e => {
-      const d = new Date(e.Date);
-      const card = `
-        <article class="card">
-          <h4>${e.Title}</h4>
-          <div class="when">${e.Date}</div>
-          <div class="where">${e.City}</div>
-          <div class="actions">
-            <button onclick="deleteEvent('${e.Title}')">Delete</button>
-          </div>
-        </article>
-      `;
-      if (d >= today) {
-        upcomingEl.innerHTML += card;
-      } else {
-        pastEl.innerHTML += card;
-      }
-    });
-  }
-
-  // Initial load
-  loadEvents();
-
-  // Mobile menu
-  document.querySelector('.menu-toggle').addEventListener('click', () => {
-    document.querySelector('.dropdown').classList.toggle('active');
-  });
-  </script>
-</body>
-</html>
+  const API_URL = "https://script.google.com/macros/s/AKfycbyZxagjk8FaLwcLGrCkYGzckypvb2PobsCOrEXQ59ArTkUT5llwXg5u9aKso_
