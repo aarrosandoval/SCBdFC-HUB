@@ -6,7 +6,6 @@
   <title>SCBdFC Member Hub - Events</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-    /* Inline CSS just for clarity — you can move to styles.css */
     .card {
       border: 1px solid #ccc;
       border-radius: 8px;
@@ -123,7 +122,6 @@
   <script>
   const API_URL = "https://script.google.com/macros/s/AKfycbwBMZGwwfPo2OmmeoCs7VKBGk6mH7AVQatAIDgwDq10nnRVj65-WBhnDkDPuJ-j2Fc/exec";
 
-  // 🔹 Modal handling
   const modal = document.getElementById("eventModal");
   const openBtn = document.getElementById("openModalBtn");
   const closeBtn = document.querySelector(".close");
@@ -132,14 +130,31 @@
   closeBtn.onclick = () => modal.style.display = "none";
   window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
 
-  // 🔹 Load events from Google Sheet
-  async function loadEvents() {
+  // 🔹 Load events with retry handling
+  async function loadEvents(retryCount = 0) {
     try {
       const res = await fetch(API_URL);
-      const events = await res.json();
+      const text = await res.text();
+
+      // 🔹 Check if backend returned an error string
+      if (text.includes("Error:")) {
+        console.warn("Backend responded with error:", text);
+
+        if (retryCount < 3) {
+          console.log("Retrying in 2s...");
+          setTimeout(() => loadEvents(retryCount + 1), 2000);
+        }
+        return;
+      }
+
+      const events = JSON.parse(text);
       render(events);
     } catch (err) {
       console.error("Failed to load events:", err);
+      if (retryCount < 3) {
+        console.log("Retrying in 2s...");
+        setTimeout(() => loadEvents(retryCount + 1), 2000);
+      }
     }
   }
 
@@ -212,7 +227,6 @@
   // Initial load
   loadEvents();
 
-  // Mobile menu toggle
   document.querySelector('.menu-toggle').addEventListener('click', () => {
     document.querySelector('.dropdown').classList.toggle('active');
   });
